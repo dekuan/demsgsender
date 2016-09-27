@@ -54,11 +54,11 @@ class CMessageSender
 	//
 	//	send sms message
 	//
-	public function Send( $sMobileNumber, $sTmpCode, $arrData, $sApiKey )
+	public function Send( $sMobileNumber, $sTemplateCode, $arrData, $sApiKey )
 	{
 		//
 		//	sMobileNumber	- [in] string	the number of mobile phone
-		//	sTmpCode	- [in] string	tmp code
+		//	sTemplateCode	- [in] string	tmp code
 		//	arrData		- [in] array	data
 		//	sApiKey		- [in] string	api key
 		//	RETURN		- error id
@@ -93,7 +93,7 @@ class CMessageSender
 						'data'		=>
 						[
 							'mobile'	=> ( 'm' . $sMobileNumber ),
-							'tmpcode'	=> $sTmpCode,
+							'tmpcode'	=> $sTemplateCode,
 							'replace'	=> $sData,
 							'auth'		=> $sApiKey,
 						],
