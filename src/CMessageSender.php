@@ -79,6 +79,7 @@ class CMessageSender
 			return self::CODE_ERROR_INPUT_PARA;
 		}
 
+
 		//	...
 		try
 		{
