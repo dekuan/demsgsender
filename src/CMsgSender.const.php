@@ -5,7 +5,7 @@ namespace dekuan\demsgsender;
 use dekuan\vdata\CConst;
 
 
-class CConstMsgSender
+class CMsgSenderConst
 {
 	//	...
 	const CHANNEL_MIN_VALUE			= 1;
