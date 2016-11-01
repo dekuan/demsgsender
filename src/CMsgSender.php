@@ -94,18 +94,12 @@ class CMsgSender extends CMsgSenderConst
 	//
 	//	send verification code
 	//
-	public function SendVerifyCode( $nChannel, $sMobileNumber, $arrData, $sApiKey, $sVersion = self::DEFAULT_SERVICE_VERSION )
+	public function SendVerifyCode( $nChannel, $sMobileNumber, $sCode, $sApiKey, $sVersion = self::DEFAULT_SERVICE_VERSION )
 	{
 		//
 		//	nChannel	- [in] int	channel
 		//	sMobileNumber	- [in] string
-		//	sTemplateCode	- [in] string	tmp code
-		//	arrData		- [in] array	data
-		//					[
-		//						'tpl'	=> 'sss',
-		//						'code'	=> 356788,
-		//						'title'	=> '打死也不要告诉别人的验证码'
-		//					]
+		//	sCode		- [in] array	verify code
 		//	sApiKey		- [in] string	api key
 		//	sVersion	- [in] string	required service version
 		//	RETURN		- error id
@@ -121,7 +115,7 @@ class CMsgSender extends CMsgSenderConst
 		{
 			return CConst::ERROR_PARAMETER;
 		}
-		if ( ! is_array( $arrData ) )
+		if ( ! CLib::IsExistingString( $sCode ) )
 		{
 			return CConst::ERROR_PARAMETER;
 		}
@@ -137,7 +131,7 @@ class CMsgSender extends CMsgSenderConst
 			if ( CLib::IsValidMobile ( $sMobileNumber , true ) )
 			{
 				$arrResponse	= [];
-				$arrPostData	= $this->_GetPostDataByChannel( $nChannel, $sMobileNumber, $arrData, $sApiKey );
+				$arrPostData	= $this->_GetPostDataByChannel( $nChannel, $sMobileNumber, $sCode, $sApiKey );
 				$sVersion	= ( CLib::IsExistingString( $sVersion, true ) ? trim( $sVersion ) : self::DEFAULT_SERVICE_VERSION );
 				$nRpcCall	= $cRequest->Post
 				(
@@ -209,30 +203,13 @@ class CMsgSender extends CMsgSenderConst
 	//
 	//	阿里大鱼数据格式
 	//
-	private function _GetPostDataByAliDaYu( $nChannel, $sMobileNumber, $arrData, $sApiKey )
+	private function _GetPostDataByAliDaYu( $nChannel, $sMobileNumber, $sCode, $sApiKey )
 	{
-		//	阿里大鱼的模版代码
-		$sTemplateCode	= CLib::GetValEx( $arrData, 'tpl', CLib::VARTYPE_STRING, '' );
-
-		//	验证码
-		$sCode		= CLib::GetValEx( $arrData, 'code', CLib::VARTYPE_STRING, '' );
-
-		//	标题文字
-		$sTitle		= CLib::GetValEx( $arrData, 'title', CLib::VARTYPE_STRING, '' );
-
-		//	json 编码后的数据
-		$sData		= json_encode
-		([
-			'code'	=> $sCode,
-			'title'	=> $sTitle,
-		]);
-
 		return
 		[
 			'channel'	=> intval( $nChannel ),
 			'mobile'	=> strval( $sMobileNumber ),
-			'tplcode'	=> $sTemplateCode,
-			'replace'	=> $sData,
+			'code'		=> $sCode,
 			'apikey'	=> $sApiKey,
 		];
 	}
