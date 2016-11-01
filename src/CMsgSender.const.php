@@ -8,12 +8,13 @@ use dekuan\vdata\CConst;
 /**
  *	Constants
  */
-class CConstMsgSender
+class CMsgSenderConst
 {
 	//	...
 	const CHANNEL_MIN_VALUE			= 1;
 	const CHANNEL_ALI_DAYU			= 1;
 	const CHANNEL_MAX_VALUE			= 1;
+
 
 	//	...
 	const MSGSENDER_ERROR_FAILED			= CConst::ERROR_USER_START + 50;	//	-1
